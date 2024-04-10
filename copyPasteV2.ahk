@@ -1,7 +1,12 @@
+#SingleInstance, Force
+SendMode Input
+SetWorkingDir, %A_ScriptDir%
+
 F9::
-    currentRow := 1  ; Inicializa la fila inicial antes del bucle
-    Loop, 2
+    currentRow := 41 ; Inicializa la fila inicial antes del bucle
+    Loop, 670
     {
+
         IfWinExist, ahk_class SALFRAME
         {
             WinActivate
@@ -17,14 +22,16 @@ F9::
             oSheet := oDoc.getCurrentController().getActiveSheet()
 
             ; Leer los valores directamente de las celdas
-            nombre := oSheet.getCellByPosition(0, currentRow).getString()
-            apellido := oSheet.getCellByPosition(1, currentRow).getString()
-            dni := oSheet.getCellByPosition(2, currentRow).getString()
-            email := oSheet.getCellByPosition(3, currentRow).getString()
+            cif := oSheet.getCellByPosition(0, currentRow).getString()
+            nombre := oSheet.getCellByPosition(1, currentRow).getString()
+            apellido1 := oSheet.getCellByPosition(2, currentRow).getString()
+            apellido2 := oSheet.getCellByPosition(3, currentRow).getString()
+            email := oSheet.getCellByPosition(4, currentRow).getString()
 
             ; Cambia a Chrome
             IfWinExist, ahk_class Chrome_WidgetWin_1
             {
+
                 WinActivate
                 Sleep, 500
 
@@ -33,21 +40,43 @@ F9::
                 Send, {Tab}
                 Sleep, 500
 
-                Send, %apellido%
+                Send, %cif%
                 Send, {Tab}
                 Sleep, 500
 
-                Send, %dni%
+                Send, %nombre%
+                Sleep, 500
+                Send,{SC039}
+                Sleep, 500
+                Send, %apellido1%
+                Sleep, 500
+                Send,{SC039}
+                Sleep, 500
+                Send, %apellido2%
+                Sleep, 500
                 Send, {Tab}
                 Sleep, 500
+
+                Loop, 2{
+                    Send, {Tab}
+                    Sleep, 500
+                }
 
                 Send, %email%
                 Send, {Tab}
                 Sleep, 500
 
                 ; Interacciones adicionales en Chrome
-                MouseClick, left, 147, 558
-                Send, {F5}
+                MouseClick, left, 1135, 182
+                Sleep, 4000
+
+                MouseClick, left, 27, 66
+                Sleep, 4000
+
+                MouseClick, left, 231, 296
+                Sleep, 4000
+                Send, ^a
+                Send, {BackSpace}
                 Sleep, 4000
 
                 ; Vuelve a LibreOffice
@@ -62,7 +91,7 @@ F9::
                     ; Send, {Down}  ; Moverse a la siguiente fila
                     ; Sleep, 500
                 }
+
             }
         }
-    }
-return
+      }  return
